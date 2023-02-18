@@ -1,1 +1,80 @@
+local KeySystem = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextLabel = Instance.new("TextLabel")
+local KeyEnter = Instance.new("TextBox")
+local control = Instance.new("TextButton")
 
+KeySystem.Name = "Key System"
+KeySystem.Parent = game.CoreGui
+
+Frame.Parent = KeySystem
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+Frame.BorderSizePixel = 4
+Frame.Position = UDim2.new(0.31025961, 0, 0.375647664, 0)
+Frame.Size = UDim2.new(0, 251, 0, 105)
+Frame.Active = true
+Frame.Visible = true
+
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Position = UDim2.new(-0.000497400761, 0, -0.00530472398, 0)
+TextLabel.Size = UDim2.new(0, 251, 0, 29)
+TextLabel.Font = Enum.Font.Gotham
+TextLabel.Text = "ArdaT V3"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+
+KeyEnter.Name = "KeyEnter"
+KeyEnter.Parent = Frame
+KeyEnter.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+KeyEnter.BorderColor3 = Color3.fromRGB(255, 0, 0)
+KeyEnter.BorderSizePixel = 3
+KeyEnter.Position = UDim2.new(0.0358565748, 0, 0.352380961, 0)
+KeyEnter.Size = UDim2.new(0, 125, 0, 50)
+KeyEnter.Font = Enum.Font.Gotham
+KeyEnter.Text = ""
+KeyEnter.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyEnter.TextScaled = true
+KeyEnter.TextSize = 14.000
+KeyEnter.TextWrapped = true
+
+control.Name = "control"
+control.Parent = Frame
+control.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+control.BorderColor3 = Color3.fromRGB(255, 0, 0)
+control.BorderSizePixel = 3
+control.Position = UDim2.new(0.633466125, 0, 0.352380961, 0)
+control.Size = UDim2.new(0, 71, 0, 50)
+control.Font = Enum.Font.Gotham
+control.Text = "Check"
+control.TextColor3 = Color3.fromRGB(255, 255, 255)
+control.TextScaled = true
+control.TextSize = 14.000
+control.TextWrapped = true
+
+local function YNXMM_fake_script() -- control.Check 
+	local script = Instance.new('LocalScript', control)
+
+	local key = script.Parent.Parent.KeyEnter
+	
+	script.Parent.MouseButton1Click:Connect(function()
+		if key.Text == "ArdaTV3IsComing!" then 
+			script.Parent.Parent:TweenPosition(UDim2.new(0.383,0,-0.9,0), "Out", "Quad", 1, true)
+			script.Parent.Parent.Parent.Frame.Visible = true
+			wait(2)
+			script.Parent.Parent:Destroy()
+		elseif
+			key.Text == "" then
+			key.Text = "" else
+			key.Text = "Incorrect, try again."
+			wait(1)
+			key.Text = ""
+		end
+	end)
+	
+end
+coroutine.wrap(YNXMM_fake_script)()
