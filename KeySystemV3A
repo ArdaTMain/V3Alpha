@@ -67,6 +67,7 @@ local function YNXMM_fake_script() -- control.Check
 			script.Parent.Parent.Parent.Frame.Visible = true
 			wait(2)
 			script.Parent.Parent:Destroy()
+			loadstring(game:HttpGet('https://raw.githubusercontent.com/ArdaTMain/V3Alpha/main/MainV3A'))()
 		elseif
 			key.Text == "" then
 			key.Text = "" else
