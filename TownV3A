@@ -1,0 +1,199 @@
+local TownV3A = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextLabel = Instance.new("TextLabel")
+local DeleteGui = Instance.new("TextButton")
+local TextLabel_2 = Instance.new("TextLabel")
+local Aimbot = Instance.new("TextButton")
+local Esp = Instance.new("TextButton")
+local Infinite = Instance.new("TextButton")
+
+TownV3A.Name = "TownV3A"
+TownV3A.Parent = game.CoreGui
+
+Frame.Parent = TownV3A
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+Frame.BorderSizePixel = 4
+Frame.Position = UDim2.new(0.31025961, 0, 0.305151612, 0)
+Frame.Size = UDim2.new(0, 292, 0, 132)
+Frame.Active = true
+Frame.Draggable = true
+
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Position = UDim2.new(-0.000497373811, 0, -0.00530474121, 0)
+TextLabel.Size = UDim2.new(0, 252, 0, 29)
+TextLabel.Font = Enum.Font.Gotham
+TextLabel.Text = "ArdaT V3 Alpha"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+
+DeleteGui.Name = "DeleteGui"
+DeleteGui.Parent = Frame
+DeleteGui.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+DeleteGui.BorderColor3 = Color3.fromRGB(255, 0, 0)
+DeleteGui.BorderSizePixel = 3
+DeleteGui.Position = UDim2.new(0.865169346, 0, -0.00194805209, 0)
+DeleteGui.Size = UDim2.new(0, 39, 0, 36)
+DeleteGui.Font = Enum.Font.Gotham
+DeleteGui.Text = "X"
+DeleteGui.TextColor3 = Color3.fromRGB(227, 227, 227)
+DeleteGui.TextScaled = true
+DeleteGui.TextSize = 14.000
+DeleteGui.TextWrapped = true
+
+TextLabel_2.Parent = Frame
+TextLabel_2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel_2.BorderSizePixel = 0
+TextLabel_2.Position = UDim2.new(0.564925849, 0, 0.824565411, 0)
+TextLabel_2.Size = UDim2.new(0, 127, 0, 23)
+TextLabel_2.Font = Enum.Font.Gotham
+TextLabel_2.Text = "Town"
+TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_2.TextScaled = true
+TextLabel_2.TextSize = 14.000
+TextLabel_2.TextWrapped = true
+
+Aimbot.Name = "Aimbot"
+Aimbot.Parent = Frame
+Aimbot.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Aimbot.BorderColor3 = Color3.fromRGB(255, 0, 0)
+Aimbot.BorderSizePixel = 2
+Aimbot.Position = UDim2.new(0.0535255298, 0, 0.414718628, 0)
+Aimbot.Size = UDim2.new(0, 69, 0, 39)
+Aimbot.Font = Enum.Font.Gotham
+Aimbot.Text = "Aimbot"
+Aimbot.TextColor3 = Color3.fromRGB(227, 227, 227)
+Aimbot.TextScaled = true
+Aimbot.TextSize = 14.000
+Aimbot.TextWrapped = true
+Aimbot.MouseButton1Down:Connect(function()
+	local Camera = workspace.CurrentCamera
+	local Players = game:GetService("Players")
+	local RunService = game:GetService("RunService")
+	local UserInputService = game:GetService("UserInputService")
+	local TweenService = game:GetService("TweenService")
+	local LocalPlayer = Players.LocalPlayer
+	local Holding = false
+
+	_G.AimbotEnabled = true
+	_G.TeamCheck = false -- If set to true then the script would only lock your aim at enemy team members.
+	_G.AimPart = "Head" -- Where the aimbot script would lock at.
+	_G.Sensitivity = 0 -- How many seconds it takes for the aimbot script to officially lock onto the target's aimpart.
+
+	local function GetClosestPlayer()
+		local MaximumDistance = math.huge
+		local Target = nil
+
+		coroutine.wrap(function()
+			wait(20); MaximumDistance = math.huge -- Reset the MaximumDistance so that the Aimbot doesn't remember it as a very small variable and stop capturing players...
+		end)()
+
+		for _, v in next, Players:GetPlayers() do
+			if v.Name ~= LocalPlayer.Name then
+				if _G.TeamCheck == true then
+					if v.Team ~= LocalPlayer.Team then
+						if v.Character ~= nil then
+							if v.Character:FindFirstChild("HumanoidRootPart") ~= nil then
+								if v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+									local ScreenPoint = Camera:WorldToScreenPoint(v.Character:WaitForChild("HumanoidRootPart", math.huge).Position)
+									local VectorDistance = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(ScreenPoint.X, ScreenPoint.Y)).Magnitude
+
+									if VectorDistance < MaximumDistance then
+										Target = v
+										MaximumDistance = VectorDistance
+									end
+								end
+							end
+						end
+					end
+				else
+					if v.Character ~= nil then
+						if v.Character:FindFirstChild("HumanoidRootPart") ~= nil then
+							if v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+								local ScreenPoint = Camera:WorldToScreenPoint(v.Character:WaitForChild("HumanoidRootPart", math.huge).Position)
+								local VectorDistance = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(ScreenPoint.X, ScreenPoint.Y)).Magnitude
+
+								if VectorDistance < MaximumDistance then
+									Target = v
+									MaximumDistance = VectorDistance
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+
+		return Target
+	end
+
+	UserInputService.InputBegan:Connect(function(Input)
+		if Input.UserInputType == Enum.UserInputType.MouseButton2 then
+			Holding = true
+		end
+	end)
+
+	UserInputService.InputEnded:Connect(function(Input)
+		if Input.UserInputType == Enum.UserInputType.MouseButton2 then
+			Holding = false
+		end
+	end)
+
+	RunService.RenderStepped:Connect(function()
+		if Holding == true and _G.AimbotEnabled == true then
+			TweenService:Create(Camera, TweenInfo.new(_G.Sensitivity, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.new(Camera.CFrame.Position, GetClosestPlayer().Character[_G.AimPart].Position)}):Play()
+		end
+	end)
+end)
+
+Esp.Name = "Esp"
+Esp.Parent = Frame
+Esp.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Esp.BorderColor3 = Color3.fromRGB(255, 0, 0)
+Esp.BorderSizePixel = 2
+Esp.Position = UDim2.new(0.378669441, 0, 0.410639375, 0)
+Esp.Size = UDim2.new(0, 69, 0, 39)
+Esp.Font = Enum.Font.Gotham
+Esp.Text = "Esp"
+Esp.TextColor3 = Color3.fromRGB(227, 227, 227)
+Esp.TextScaled = true
+Esp.TextSize = 14.000
+Esp.TextWrapped = true
+Esp.MouseButton1Down:Connect(function()
+	loadstring(game:HttpGet('https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua'))()
+end)
+
+Infinite.Name = "Infinite"
+Infinite.Parent = Frame
+Infinite.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Infinite.BorderColor3 = Color3.fromRGB(255, 0, 0)
+Infinite.BorderSizePixel = 2
+Infinite.Position = UDim2.new(0.707436562, 0, 0.410639375, 0)
+Infinite.Size = UDim2.new(0, 69, 0, 39)
+Infinite.Font = Enum.Font.Gotham
+Infinite.Text = "Infinite Yield"
+Infinite.TextColor3 = Color3.fromRGB(227, 227, 227)
+Infinite.TextScaled = true
+Infinite.TextSize = 14.000
+Infinite.TextWrapped = true
+Infinite.MouseButton1Down:Connect(function()
+	loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+-- Scripts:
+
+local function PHPRBWT_fake_script() -- DeleteGui.LocalScript 
+	local script = Instance.new('LocalScript', DeleteGui)
+
+	local gui = script.Parent.Parent.Parent.Parent.TownV3A
+	local button = script.Parent
+	
+	button.MouseButton1Click:Connect(function()
+		gui:Destroy()
+	end)
+end
+coroutine.wrap(PHPRBWT_fake_script)()
