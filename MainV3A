@@ -2,7 +2,7 @@ repeat
     wait()
 until game:IsLoaded()
 
-local A = loadstring(game:HttpGet("))()
+local A = loadstring(game:HttpGet("https://raw.githubusercontent.com/ArdaTMain/V3Alpha/main/GameListV3A"))()
 getgenv().Get =
     setmetatable(
     {},
